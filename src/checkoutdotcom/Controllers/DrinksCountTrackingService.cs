@@ -36,12 +36,12 @@ namespace checkoutdotcom.Controllers
             return this.drinks.ContainsKey(name) ? this.drinks[name] : 0;
         }
 
-        public bool Delete(string name)
+        public bool TryDelete(string name)
         {
             return this.drinks.Remove(name);
         }
 
-        public bool Update(string name, int quantity)
+        public bool TryUpdate(string name, int quantity)
         {
             if (this.drinks.ContainsKey(name))
             {

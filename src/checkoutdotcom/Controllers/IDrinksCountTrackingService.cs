@@ -12,8 +12,8 @@
         void AddDrink(string name, int quantity);
         int Get(string name);
 
-        bool Delete(string name);
+        bool TryDelete(string name);
 
-        bool Update(string name, int quantity);
+        bool TryUpdate(string name, int quantity);
     }
 }

@@ -43,7 +43,7 @@ namespace checkoutdotcom.Controllers
         [Route("{drinkName}")]
         public IActionResult Delete(string drinkName)
         {
-            var success = this.drinksCountTrackingService.Delete(drinkName);
+            var success = this.drinksCountTrackingService.TryDelete(drinkName);
             if (!success)
             {
                 return this.NotFound();
@@ -55,7 +55,7 @@ namespace checkoutdotcom.Controllers
         [HttpPut]
         public IActionResult UpdateDrink([FromBody]DrinkOrder drinkOrder)
         {
-            var successful  = this.drinksCountTrackingService.Update(drinkOrder.Name, drinkOrder.Quantity);
+            var successful  = this.drinksCountTrackingService.TryUpdate(drinkOrder.Name, drinkOrder.Quantity);
             if (!successful)
             {
                 return this.NotFound();

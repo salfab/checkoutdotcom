@@ -255,5 +255,17 @@ namespace checkoutdotcom.Tests
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);        
         }
+
+        [TestMethod]
+        public void Put_on_drink_without_a_payload()
+        {
+            string drinkName = Guid.NewGuid().ToString("N");
+            var request = new RestRequest($"/drinks/{drinkName}");
+            string payloadUpdate = $"";
+            request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
+            var response = this.client.Put(request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);        
+        }
     }
 }

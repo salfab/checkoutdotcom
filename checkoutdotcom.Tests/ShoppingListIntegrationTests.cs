@@ -71,11 +71,9 @@ namespace checkoutdotcom.Tests
             var response = this.client.Get(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var jsonResponse = response.Content.As<JArray>();
+            var jsonResponse = JArray.Parse(response.Content);
             var newDrinkToken = jsonResponse.Single(token => token["name"].Value<string>().Equals(newDrink, StringComparison.OrdinalIgnoreCase));
             newDrinkToken["quantity"].Value<int>().Should().Be(2);
-
-
         }
     }
 }

@@ -119,17 +119,51 @@ namespace checkoutdotcom.Tests
 
             this.client.Post(restRequest);
 
-            var getRequest = new RestRequest($"/drinks/{newDrink}")
-            {
-                Method = Method.GET
-            };
+            var getRequest = new RestRequest($"/drinks/{newDrink}");
 
-            //getRequest.AddUrlSegment("drinkName", newDrink);
-
-            var response = this.client.Execute(getRequest);
+            var response = this.client.Get(getRequest);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             JObject.Parse(response.Content)["quantity"].Value<int>().Should().Be(2);
+        }
+
+        [TestMethod]
+        public void Delete_request_on_ShoppingList_for_known_drink()
+        {
+
+            var restRequest = new RestRequest("/add-drink");
+
+            var newDrink = Guid.NewGuid().ToString("N");
+            string payload = $"{{\"name\":\"{newDrink}\",\"quantity\":2}}";
+
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+
+            this.client.Post(restRequest);
+
+            var getRequest = new RestRequest($"/drinks/{newDrink}");
+
+            var response = this.client.Get(getRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            JObject.Parse(response.Content)["quantity"].Value<int>().Should().Be(2);
+
+            var deleteRequest = new RestRequest($"/drinks/{newDrink}");
+            var deleteResponse = this.client.Delete(deleteRequest);
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var responseAfterDelete = this.client.Get(getRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+
+        [TestMethod]
+        public void Delete_request_on_ShoppingList_for_unknown_drink()
+        {
+            var unknownDrink = Guid.NewGuid().ToString("N");
+
+            var deleteRequest = new RestRequest($"/drinks/{unknownDrink}");
+            var deleteResponse = this.client.Delete(deleteRequest);
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

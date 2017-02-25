@@ -4,7 +4,7 @@
 
     public interface IDrinksPersistenceService
     {
-        IEnumerable<string> Get();
+        Dictionary<string, int> Get();
 
         void AddDrink(string name, int quantity);
     }

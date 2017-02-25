@@ -1,19 +1,34 @@
-﻿namespace checkoutdotcom.Controllers
+﻿using System.Linq;
+
+namespace checkoutdotcom.Controllers
 {
     using System.Collections.Generic;
 
     public class DrinksPersistenceService : IDrinksPersistenceService
     {
-        private IEnumerable<string> drinks;
+        private readonly Dictionary<string, int> drinks;
 
-        public IEnumerable<string> Get()
+
+        public DrinksPersistenceService()
         {
-            return this.drinks;
+            this.drinks = new Dictionary<string, int>();
+        }
+        public Dictionary<string, int> Get()
+        {
+            // let's not return a reference to the actual this.drinks dictionary.
+            return this.drinks.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
         public void AddDrink(string name, int quantity)
         {
-            
+            if (this.drinks.ContainsKey(name))
+            {
+                this.drinks[name]++;
+            }
+            else
+            {                
+               this.drinks.Add(name, quantity);
+            }
         }
     }
 }

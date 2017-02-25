@@ -1,4 +1,6 @@
-﻿namespace checkoutdotcom.Controllers
+﻿using System.Linq;
+
+namespace checkoutdotcom.Controllers
 {
     using System.Collections.Generic;
 
@@ -15,9 +17,9 @@
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<DrinkOrder> Get()
         {
-            return this.drinksPersistenceService.Get();
+            return this.drinksPersistenceService.Get().Select(pair => new DrinkOrder {Name = pair.Key, Quantity = pair.Value});
         }
 
         /// <summary>

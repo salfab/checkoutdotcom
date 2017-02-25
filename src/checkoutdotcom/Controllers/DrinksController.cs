@@ -52,6 +52,8 @@ namespace checkoutdotcom.Controllers
             return this.Ok();
         }
 
+
+        //TODO: drinkOrder contains the id but we need to get it from the url.
         [HttpPut]
         public IActionResult UpdateDrink([FromBody]DrinkOrder drinkOrder)
         {

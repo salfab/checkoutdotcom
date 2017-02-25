@@ -8,17 +8,17 @@ namespace checkoutdotcom.Controllers
     [Route("api/shopping-list/drinks")]
     public class DrinksController : Controller
     {
-        private readonly IDrinksPersistenceService drinksPersistenceService;
+        private readonly IDrinksCountTrackingService drinksCountTrackingService;
 
-        public DrinksController(IDrinksPersistenceService drinksPersistenceService)
+        public DrinksController(IDrinksCountTrackingService drinksCountTrackingService)
         {
-            this.drinksPersistenceService = drinksPersistenceService;
+            this.drinksCountTrackingService = drinksCountTrackingService;
         }
 
         [HttpGet]        
         public IEnumerable<DrinkOrder> Get()
         {
-            return this.drinksPersistenceService.Get().Select(pair => new DrinkOrder { Name = pair.Key, Quantity = pair.Value });
+            return this.drinksCountTrackingService.Get().Select(pair => new DrinkOrder { Name = pair.Key, Quantity = pair.Value });
         }
 
 
@@ -26,7 +26,7 @@ namespace checkoutdotcom.Controllers
         [Route("{drinkName}")]
         public IActionResult Get(string drinkName)
         {
-            var count = this.drinksPersistenceService.Get(drinkName);
+            var count = this.drinksCountTrackingService.Get(drinkName);
 
             if (count == 0)
             {
@@ -43,7 +43,7 @@ namespace checkoutdotcom.Controllers
         [Route("{drinkName}")]
         public IActionResult Delete(string drinkName)
         {
-            var success = this.drinksPersistenceService.Delete(drinkName);
+            var success = this.drinksCountTrackingService.Delete(drinkName);
             if (!success)
             {
                 return this.NotFound();
@@ -55,7 +55,7 @@ namespace checkoutdotcom.Controllers
         [HttpPut]
         public IActionResult UpdateDrink([FromBody]DrinkOrder drinkOrder)
         {
-            var successful  = this.drinksPersistenceService.Update(drinkOrder.Name, drinkOrder.Quantity);
+            var successful  = this.drinksCountTrackingService.Update(drinkOrder.Name, drinkOrder.Quantity);
             if (!successful)
             {
                 return this.NotFound();

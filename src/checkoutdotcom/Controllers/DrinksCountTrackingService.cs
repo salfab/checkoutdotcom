@@ -4,12 +4,12 @@ namespace checkoutdotcom.Controllers
 {
     using System.Collections.Generic;
 
-    public class DrinksPersistenceService : IDrinksPersistenceService
+    public class DrinksCountTrackingService : IDrinksCountTrackingService
     {
         private readonly Dictionary<string, int> drinks;
 
 
-        public DrinksPersistenceService()
+        public DrinksCountTrackingService()
         {
             this.drinks = new Dictionary<string, int>();
         }

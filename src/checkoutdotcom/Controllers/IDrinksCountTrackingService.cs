@@ -2,7 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public interface IDrinksPersistenceService
+    /// <summary>
+    /// The contract for the service responsible for tracking the drinks count.
+    /// </summary>
+    public interface IDrinksCountTrackingService
     {
         Dictionary<string, int> Get();
 

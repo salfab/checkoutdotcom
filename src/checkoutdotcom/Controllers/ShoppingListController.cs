@@ -9,11 +9,11 @@ namespace checkoutdotcom.Controllers
     [Route("api/shopping-list")]
     public class ShoppingListController : Controller
     {
-        private readonly IDrinksPersistenceService drinksPersistenceService;
+        private readonly IDrinksCountTrackingService drinksCountTrackingService;
 
-        public ShoppingListController(IDrinksPersistenceService drinksPersistenceService)
+        public ShoppingListController(IDrinksCountTrackingService drinksCountTrackingService)
         {
-            this.drinksPersistenceService = drinksPersistenceService;
+            this.drinksCountTrackingService = drinksCountTrackingService;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace checkoutdotcom.Controllers
         [HttpPost]
         public void AddDrink([FromBody]DrinkOrder drinkOrder)
         {
-            this.drinksPersistenceService.AddDrink(drinkOrder.Name, drinkOrder.Quantity);
+            this.drinksCountTrackingService.AddDrink(drinkOrder.Name, drinkOrder.Quantity);
         }
     }
 }

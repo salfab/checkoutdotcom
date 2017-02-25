@@ -32,7 +32,7 @@ namespace checkoutdotcom
             // Add framework services.
             services.AddMvc();
 
-            services.AddSingleton<IDrinksPersistenceService, DrinksPersistenceService>();
+            services.AddSingleton<IDrinksCountTrackingService, DrinksCountTrackingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

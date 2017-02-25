@@ -4,7 +4,7 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("api/shopping-list")]
     public class ShoppingListController : Controller
     {
         private readonly IDrinksPersistenceService drinksPersistenceService;

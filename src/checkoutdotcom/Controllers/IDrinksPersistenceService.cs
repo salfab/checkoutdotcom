@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    internal interface IDrinksPersistenceService
+    public interface IDrinksPersistenceService
     {
         IEnumerable<string> Get();
     }

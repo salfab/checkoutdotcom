@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using checkoutdotcom.Controllers;
 
 namespace checkoutdotcom
 {
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -29,6 +31,8 @@ namespace checkoutdotcom
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddTransient<IDrinksPersistenceService, DrinksPersistenceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

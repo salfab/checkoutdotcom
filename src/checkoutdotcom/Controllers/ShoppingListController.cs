@@ -29,9 +29,14 @@ namespace checkoutdotcom.Controllers
         /// </remarks>
         [Route("add-drink")]
         [HttpPost]
-        public void AddDrink([FromBody]DrinkOrder drinkOrder)
+        public IActionResult AddDrink([FromBody]DrinkOrder drinkOrder)
         {
-            this.drinksCountTrackingService.AddDrink(drinkOrder.Name, drinkOrder.Quantity);
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+            this.drinksCountTrackingService.AddDrink(drinkOrder.Name, drinkOrder.Quantity.Value);
+            return this.Ok();
         }
     }
 }

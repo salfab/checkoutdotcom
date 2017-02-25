@@ -57,7 +57,7 @@ namespace checkoutdotcom.Controllers
         [HttpPut]
         public IActionResult UpdateDrink([FromBody]DrinkOrder drinkOrder)
         {
-            var successful  = this.drinksCountTrackingService.TryUpdate(drinkOrder.Name, drinkOrder.Quantity);
+            var successful  = this.drinksCountTrackingService.TryUpdate(drinkOrder.Name, drinkOrder.Quantity.Value);
             if (!successful)
             {
                 return this.NotFound();

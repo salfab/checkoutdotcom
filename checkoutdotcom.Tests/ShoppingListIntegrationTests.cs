@@ -53,6 +53,32 @@ namespace checkoutdotcom.Tests
         }
 
         [TestMethod]
+        public void Post_request_on_ShoppingList_with_incomplete_payload()
+        {            
+            // The specs ask us to adding drinks here, not create a new resource. it is not truly a REST api, since "add" is an action and not the location of a resource.
+            var restRequest = new RestRequest("/add-drink");
+
+            var payload = "{\"name\":\"Pepsi\"}";
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+            var response = this.client.Post(restRequest);
+            
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);                        
+        }
+
+        [TestMethod]
+        public void Post_request_on_ShoppingList_with_bad_format_payload()
+        {            
+            // The specs ask us to adding drinks here, not create a new resource. it is not truly a REST api, since "add" is an action and not the location of a resource.
+            var restRequest = new RestRequest("/add-drink");
+
+            var payload = "{\"name\":\"Pepsi\",\"quantity\":\"one\"}";
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+            var response = this.client.Post(restRequest);
+            
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);                        
+        }
+
+        [TestMethod]
         public void Post_request_on_ShoppingList_resource_for_2_new_drinks_followed_by_Get_ShoppingList()
         {
             var restRequest = new RestRequest("/add-drink");
@@ -206,5 +232,15 @@ namespace checkoutdotcom.Tests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);        
         }
 
+        [TestMethod]
+        public void Put_on_drink_with_invalid_payload()
+        {            
+            var request = new RestRequest("/drinks");
+            string payloadUpdate = $"{{\"quantity\":1337}}";
+            request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
+            var response = this.client.Put(request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);        
+        }
     }
 }

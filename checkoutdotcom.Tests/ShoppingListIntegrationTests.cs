@@ -32,5 +32,13 @@ namespace checkoutdotcom.Tests
             var response = this.client.Get(new RestRequest("/", Method.GET));
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        [TestMethod]
+        public void Post_request_on_ShoppingList_resource_for_1_Pepsi()
+        {            
+            // The specs ask us to adding drinks here, not create a new resource. it is not truly a REST api, since "add" is an action and not the location of a resource.
+            var response = this.client.Get(new RestRequest("/add-drink", Method.POST));
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }

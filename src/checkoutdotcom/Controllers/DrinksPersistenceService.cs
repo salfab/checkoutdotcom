@@ -23,7 +23,7 @@ namespace checkoutdotcom.Controllers
         {
             if (this.drinks.ContainsKey(name))
             {
-                this.drinks[name]++;
+                this.drinks[name] += quantity;
             }
             else
             {                

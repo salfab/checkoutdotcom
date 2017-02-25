@@ -75,5 +75,29 @@ namespace checkoutdotcom.Tests
             var newDrinkToken = jsonResponse.Single(token => token["name"].Value<string>().Equals(newDrink, StringComparison.OrdinalIgnoreCase));
             newDrinkToken["quantity"].Value<int>().Should().Be(2);
         }
+
+
+        [TestMethod]
+        public void two_Post_requests_on_ShoppingList_resource_for_2_new_drinks_each_followed_by_Get_ShoppingList()
+        {
+            var restRequest = new RestRequest("/add-drink");
+
+            var newDrink = Guid.NewGuid().ToString("N");
+            string payload = $"{{\"name\":\"{newDrink}\",\"quantity\":2}}";
+
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+
+            this.client.Post(restRequest);
+
+            this.client.Post(restRequest);
+
+            var request = new RestRequest("/");
+            var response = this.client.Get(request);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var jsonResponse = JArray.Parse(response.Content);
+            var newDrinkToken = jsonResponse.Single(token => token["name"].Value<string>().Equals(newDrink, StringComparison.OrdinalIgnoreCase));
+            newDrinkToken["quantity"].Value<int>().Should().Be(4);
+        }
     }
 }

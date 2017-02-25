@@ -21,11 +21,11 @@ namespace checkoutdotcom.Controllers
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        ///   The specs ask us to add drinks here.
-        ///   This is not the creation of a new resource. Drinks of this type may already exist. 
-        ///   We are not creating a new resource and therefore, we can't have a truly REST endpoint, since "add" is an action and not the location of a resource.
-        ///   If we wanted to make it RESTful, we would need to expose this endpoint as a PUT or PATCH endpoint to allow the consumer to edit the "shopping-list" resource.
-        ///   Instead, we'll use a non-REST action-oriented endpoint.
+        ///   The specs ask us to add drinks. Drinks of this type may already exist in the shopping list.
+        ///   In that case, its quantity will be incremented according, therefore, the endpoint can't follow the RESTful pattern, since it doesn't always lead to the creation of a new resource. 
+        ///   "adding a drink" is therefore an action (RPC) on the shopping list and can't be represented as a located resource on which different actions (verbs) can be performed.
+        ///   If we wanted to make it RESTful, we would need to expose the endpoint via the PUT or PATCH verb. The consumer would then have the burden of incrementing the counters, 
+        ///   and of calling the correct (POST / PATCH) endpoint. In order to reduce the complexity, and avoid concurrency issues, we will prefer an RPC approach over a RESTful service.
         /// </remarks>
         [Route("add-drink")]
         [HttpPost]

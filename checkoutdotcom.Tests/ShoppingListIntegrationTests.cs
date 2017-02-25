@@ -267,5 +267,29 @@ namespace checkoutdotcom.Tests
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);        
         }
+
+        [TestMethod]
+        public void Post_request_on_ShoppingList_without_payload()
+        {
+            // The specs ask us to adding drinks here, not create a new resource. it is not truly a REST api, since "add" is an action and not the location of a resource.
+            var restRequest = new RestRequest("/add-drink");
+
+            var payload = "";
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+            var response = this.client.Post(restRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        [TestMethod]
+        public void Delete_request_on_ShoppingList_without_passing_drinkName_returns_NotFound()
+        {
+            var unknownDrink = string.Empty;
+
+            var deleteRequest = new RestRequest($"/drinks/{unknownDrink}");
+            var deleteResponse = this.client.Delete(deleteRequest);
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }

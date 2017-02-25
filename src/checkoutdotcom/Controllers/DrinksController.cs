@@ -51,5 +51,16 @@ namespace checkoutdotcom.Controllers
 
             return this.Ok();
         }
+
+        [HttpPut]
+        public IActionResult UpdateDrink([FromBody]DrinkOrder drinkOrder)
+        {
+            var successful  = this.drinksPersistenceService.Update(drinkOrder.Name, drinkOrder.Quantity);
+            if (!successful)
+            {
+                return this.NotFound();
+            }
+            return this.Ok();
+        }
     }
 }

@@ -165,5 +165,46 @@ namespace checkoutdotcom.Tests
             var deleteResponse = this.client.Delete(deleteRequest);
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [TestMethod]
+        public void Put_on_known_drink_updates_quantity_accordingly()
+        {
+            var restRequest = new RestRequest("/add-drink");
+
+            var newDrink = Guid.NewGuid().ToString("N");
+            string payload = $"{{\"name\":\"{newDrink}\",\"quantity\":2}}";
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+            this.client.Post(restRequest);
+
+
+            var request = new RestRequest("/drinks");
+            string payloadUpdate = $"{{\"name\":\"{newDrink}\",\"quantity\":1337}}";
+            request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
+            var response = this.client.Put(request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var getRequest = new RestRequest($"/drinks/{newDrink}");
+
+            var getResponse = this.client.Get(getRequest);
+            getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            JObject.Parse(getResponse.Content)["quantity"].Value<int>().Should().Be(1337);
+
+        }
+
+        [TestMethod]
+        public void Put_on_unknown_drink_returns_NotFound()
+        {
+            var unknownDrink = Guid.NewGuid().ToString("N");
+
+            var request = new RestRequest("/drinks");
+            string payloadUpdate = $"{{\"name\":\"{unknownDrink}\",\"quantity\":1337}}";
+            request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
+            var response = this.client.Put(request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);        
+        }
+
     }
 }

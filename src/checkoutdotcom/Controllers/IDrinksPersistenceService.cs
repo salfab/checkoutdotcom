@@ -10,5 +10,7 @@
         int Get(string name);
 
         bool Delete(string name);
+
+        bool Update(string name, int quantity);
     }
 }

@@ -40,5 +40,15 @@ namespace checkoutdotcom.Controllers
         {
             return this.drinks.Remove(name);
         }
+
+        public bool Update(string name, int quantity)
+        {
+            if (this.drinks.ContainsKey(name))
+            {
+                this.drinks[name] = quantity;
+                return true;
+            }
+            return false;
+        }
     }
 }

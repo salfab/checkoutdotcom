@@ -19,11 +19,15 @@ namespace checkoutdotcom.Controllers
         public IActionResult Get(string drinkName)
         {
             var count = this.drinksPersistenceService.Get(drinkName);
+
             if (count == 0)
             {
                 return this.NotFound();
             }
-            return Ok(new DrinkOrder { Name = drinkName, Quantity = count});
+
+            var drinkOrder = new DrinkOrder { Name = drinkName, Quantity = count};
+
+            return this.Ok(drinkOrder);
         }
     }
 }

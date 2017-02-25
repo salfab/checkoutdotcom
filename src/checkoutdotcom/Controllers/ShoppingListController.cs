@@ -16,12 +16,6 @@ namespace checkoutdotcom.Controllers
             this.drinksPersistenceService = drinksPersistenceService;
         }
 
-        [HttpGet]
-        public IEnumerable<DrinkOrder> Get()
-        {
-            return this.drinksPersistenceService.Get().Select(pair => new DrinkOrder {Name = pair.Key, Quantity = pair.Value});
-        }
-
         /// <summary>
         /// Adds a number of drinks to the shopping-list.
         /// </summary>

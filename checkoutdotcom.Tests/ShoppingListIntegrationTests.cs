@@ -33,12 +33,9 @@ namespace checkoutdotcom.Tests
         [TestMethod]
         public void Get_request_on_ShoppingList_resource()
         {
-            var restRequest = new RestRequest("/")
-                                  {
-                                      Method = Method.GET
-                                  };
+            var restRequest = new RestRequest("/drinks");
 
-            var response = this.client.Execute(restRequest);
+            var response = this.client.Get(restRequest);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
@@ -67,7 +64,7 @@ namespace checkoutdotcom.Tests
 
             this.client.Post(restRequest);
 
-            var request = new RestRequest("/");
+            var request = new RestRequest("/drinks");
             var response = this.client.Get(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -90,7 +87,7 @@ namespace checkoutdotcom.Tests
 
             this.client.Post(restRequest);
 
-            var request = new RestRequest("/");
+            var request = new RestRequest("/drinks");
             var response = this.client.Get(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 

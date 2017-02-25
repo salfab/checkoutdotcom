@@ -31,10 +31,11 @@
         ///   If we wanted to make it RESTful, we would need to expose this endpoint as a PUT or PATCH endpoint to allow the consumer to edit the "shopping-list" resource.
         ///   Instead, we'll use a non-REST action-oriented endpoint.
         /// </remarks>
+        [Route("add-drink")]
         [HttpPost]
-        public IEnumerable<string> AddDrink(DrinkOrder drinkOrder)
+        public void AddDrink([FromBody]DrinkOrder drinkOrder)
         {
-            return this.drinksPersistenceService.Get();
+            this.drinksPersistenceService.AddDrink(drinkOrder.Name, drinkOrder.Quantity);
         }
     }
 }

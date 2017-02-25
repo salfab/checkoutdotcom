@@ -5,5 +5,7 @@
     public interface IDrinksPersistenceService
     {
         IEnumerable<string> Get();
+
+        void AddDrink(string name, int quantity);
     }
 }

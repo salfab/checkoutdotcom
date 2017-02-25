@@ -10,5 +10,10 @@
         {
             return this.drinks;
         }
+
+        public void AddDrink(string name, int quantity)
+        {
+            
+        }
     }
 }

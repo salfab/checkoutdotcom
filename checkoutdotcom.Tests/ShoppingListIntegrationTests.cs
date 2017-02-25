@@ -261,7 +261,7 @@ namespace checkoutdotcom.Tests
         {
             string drinkName = Guid.NewGuid().ToString("N");
             var request = new RestRequest($"/drinks/{drinkName}");
-            string payloadUpdate = $"";
+            string payloadUpdate = $"  ";
             request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
             var response = this.client.Put(request);
 
@@ -274,7 +274,7 @@ namespace checkoutdotcom.Tests
             // The specs ask us to adding drinks here, not create a new resource. it is not truly a REST api, since "add" is an action and not the location of a resource.
             var restRequest = new RestRequest("/add-drink");
 
-            var payload = "";
+            var payload = " ";
             restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
             var response = this.client.Post(restRequest);
 

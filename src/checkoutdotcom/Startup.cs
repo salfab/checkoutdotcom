@@ -34,6 +34,7 @@ namespace checkoutdotcom
                         // register our filters globally.
                         options.Filters.Add(typeof(ModelStateValidationActionFilter));
                         options.Filters.Add(typeof(ResourceNotFoundExceptionToHttpStatusCodeConverterActionFilter));
+                        options.Filters.Add(typeof(ArgumentExceptionToBadRequestActionFilter));
                     });
 
             RegisterServices(services);

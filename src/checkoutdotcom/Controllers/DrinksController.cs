@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,6 +57,15 @@ namespace checkoutdotcom.Controllers
         [Route("{drinkName}")]
         public void UpdateDrink(string drinkName, [FromBody]DrinkOrderBase drinkOrder)
         {
+            if (drinkName == null)
+            {
+                throw new ArgumentNullException(nameof(drinkName));
+            }
+            if (drinkOrder == null)
+            {
+                throw new ArgumentNullException(nameof(drinkOrder));
+            }
+
             var successful  = this.drinksCountTrackingService.TryUpdate(drinkName, drinkOrder.Quantity.Value);
             if (!successful)
             {

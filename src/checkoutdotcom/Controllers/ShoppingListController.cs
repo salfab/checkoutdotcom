@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace checkoutdotcom.Controllers
 {
@@ -30,7 +31,12 @@ namespace checkoutdotcom.Controllers
         [Route("add-drink")]
         [HttpPost]
         public void AddDrink([FromBody]DrinkOrder drinkOrder)
-        {            
+        {
+            if (drinkOrder == null)
+            {
+                throw new ArgumentNullException(nameof(drinkOrder));
+            }
+
             this.drinksCountTrackingService.AddDrink(drinkOrder.Name, drinkOrder.Quantity.Value);
         }
     }

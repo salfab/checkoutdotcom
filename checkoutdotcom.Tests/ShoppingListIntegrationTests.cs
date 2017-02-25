@@ -152,7 +152,7 @@ namespace checkoutdotcom.Tests
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var responseAfterDelete = this.client.Get(getRequest);
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            responseAfterDelete.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
 

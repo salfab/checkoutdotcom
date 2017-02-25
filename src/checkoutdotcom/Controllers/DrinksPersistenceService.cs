@@ -35,5 +35,10 @@ namespace checkoutdotcom.Controllers
         {
             return this.drinks.ContainsKey(name) ? this.drinks[name] : 0;
         }
+
+        public bool Delete(string name)
+        {
+            return this.drinks.Remove(name);
+        }
     }
 }

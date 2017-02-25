@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace checkoutdotcom.Controllers
 {
-    [Route("api/shopping-list")]
+    [Route("api/shopping-list/drinks")]
     public class DrinksController : Controller
     {
         private readonly IDrinksPersistenceService drinksPersistenceService;
@@ -15,8 +15,7 @@ namespace checkoutdotcom.Controllers
             this.drinksPersistenceService = drinksPersistenceService;
         }
 
-        [HttpGet]
-        [Route("drinks")]
+        [HttpGet]        
         public IEnumerable<DrinkOrder> Get()
         {
             return this.drinksPersistenceService.Get().Select(pair => new DrinkOrder { Name = pair.Key, Quantity = pair.Value });
@@ -24,7 +23,7 @@ namespace checkoutdotcom.Controllers
 
 
         [HttpGet]
-        [Route("drinks/{drinkName}")]
+        [Route("{drinkName}")]
         public IActionResult Get(string drinkName)
         {
             var count = this.drinksPersistenceService.Get(drinkName);
@@ -37,6 +36,20 @@ namespace checkoutdotcom.Controllers
             var drinkOrder = new DrinkOrder { Name = drinkName, Quantity = count};
 
             return this.Ok(drinkOrder);
+        }
+
+
+        [HttpDelete]
+        [Route("{drinkName}")]
+        public IActionResult Delete(string drinkName)
+        {
+            var success = this.drinksPersistenceService.Delete(drinkName);
+            if (!success)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok();
         }
     }
 }

@@ -1,13 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 
 namespace checkoutdotcom.Controllers
 {
-    public class DrinkOrder
+    public class DrinkOrderBase
     {
-        [Required]
-        public string Name { get; set; }
-
         [Required]
         public int? Quantity { get; set; }
     }

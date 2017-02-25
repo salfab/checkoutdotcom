@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using checkoutdotcom.Controllers;
+using checkoutdotcom.Filters;
 
 namespace checkoutdotcom
 {
@@ -30,7 +31,12 @@ namespace checkoutdotcom
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(
+                options =>
+                    {
+                        options.Filters.Add(new ModelStateValidationActionFilter());
+                        options.Filters.Add(new ResourceNotFoundExceptionToHttpStatusCodeConverterActionFilter());
+                    });            
 
             services.AddSingleton<IDrinksCountTrackingService, DrinksCountTrackingService>();
         }

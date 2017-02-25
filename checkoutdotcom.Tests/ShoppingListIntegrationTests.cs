@@ -203,7 +203,7 @@ namespace checkoutdotcom.Tests
             this.client.Post(restRequest);
 
 
-            var request = new RestRequest("/drinks");
+            var request = new RestRequest($"/drinks/{newDrink}");
             string payloadUpdate = $"{{\"name\":\"{newDrink}\",\"quantity\":1337}}";
             request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
             var response = this.client.Put(request);
@@ -224,7 +224,7 @@ namespace checkoutdotcom.Tests
         {
             var unknownDrink = Guid.NewGuid().ToString("N");
 
-            var request = new RestRequest("/drinks");
+            var request = new RestRequest($"/drinks/{unknownDrink}");
             string payloadUpdate = $"{{\"name\":\"{unknownDrink}\",\"quantity\":1337}}";
             request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
             var response = this.client.Put(request);
@@ -234,8 +234,9 @@ namespace checkoutdotcom.Tests
 
         [TestMethod]
         public void Put_on_drink_with_invalid_payload()
-        {            
-            var request = new RestRequest("/drinks");
+        {
+            string drinkName = Guid.NewGuid().ToString("N");
+            var request = new RestRequest($"/drinks/{drinkName}");
             string payloadUpdate = $"{{\"quantity\":1337}}";
             request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
             var response = this.client.Put(request);

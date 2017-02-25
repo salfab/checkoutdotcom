@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using checkoutdotcom.Exceptions;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace checkoutdotcom.Controllers
@@ -21,48 +23,45 @@ namespace checkoutdotcom.Controllers
             return this.drinksCountTrackingService.Get().Select(pair => new DrinkOrder { Name = pair.Key, Quantity = pair.Value });
         }
 
-
         [HttpGet]
         [Route("{drinkName}")]
-        public IActionResult Get(string drinkName)
+        public DrinkOrder Get(string drinkName)
         {
             var count = this.drinksCountTrackingService.Get(drinkName);
 
             if (count == 0)
             {
-                return this.NotFound();
+                throw new ResourceNotFoundException("couldn't find drink " + drinkName);
             }
 
             var drinkOrder = new DrinkOrder { Name = drinkName, Quantity = count};
 
-            return this.Ok(drinkOrder);
+            return drinkOrder;
         }
 
 
         [HttpDelete]
         [Route("{drinkName}")]
-        public IActionResult Delete(string drinkName)
+        public void Delete(string drinkName)
         {
             var success = this.drinksCountTrackingService.TryDelete(drinkName);
             if (!success)
             {
-                return this.NotFound();
-            }
-
-            return this.Ok();
+                throw new ResourceNotFoundException("couldn't find drink " + drinkName);
+            }            
         }
 
 
         //TODO: drinkOrder contains the id but we need to get it from the url.
         [HttpPut]
-        public IActionResult UpdateDrink([FromBody]DrinkOrder drinkOrder)
+        [Route("{drinkName}")]
+        public void UpdateDrink(string drinkName, [FromBody]DrinkOrder drinkOrder)
         {
             var successful  = this.drinksCountTrackingService.TryUpdate(drinkOrder.Name, drinkOrder.Quantity.Value);
             if (!successful)
             {
-                return this.NotFound();
-            }
-            return this.Ok();
+                throw new ResourceNotFoundException("couldn't find drink " + drinkName);
+            }            
         }
     }
 }

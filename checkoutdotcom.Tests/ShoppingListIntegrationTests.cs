@@ -21,13 +21,25 @@ namespace checkoutdotcom.Tests
         private RestClient client;
 
         [TestInitialize]
-        public void InitTestServer()
+        public void InitRestClient()
         {
             this.serviceUrl = "http://localhost:52157/api/shopping-list";
             this.client = new RestClient(this.serviceUrl);                        
             this.client.Get(new RestRequest("/")).ResponseStatus.Should().NotBe(ResponseStatus.Error, $"The service should be running on url {this.serviceUrl}. Please run the web application before executing the integration tests.");
 
             // TODO: Use kestrel here to start an instance instead of asking the app to be run manually.
+        }
+
+        [ClassInitialize]
+        public static void ChecksServerIsRunning(TestContext context)
+        {
+            // TODO: Use kestrel here to start an instance instead of asking the app to be run manually.
+            var baseUrl = "http://localhost:52157/api/shopping-list";
+            new RestClient(baseUrl)
+                .Get(new RestRequest("/"))
+                .ResponseStatus.Should().NotBe(ResponseStatus.Error,
+                $"The service should be running on url {baseUrl}. Please run the web application before executing the integration tests.");
+
         }
 
         [TestMethod]

@@ -12,7 +12,6 @@ using checkoutdotcom.Filters;
 
 namespace checkoutdotcom
 {
-
     public class Startup
     {
         public Startup(IHostingEnvironment env)

@@ -52,12 +52,11 @@ namespace checkoutdotcom.Controllers
         }
 
 
-        //TODO: drinkOrder contains the id but we need to get it from the url.
         [HttpPut]
         [Route("{drinkName}")]
-        public void UpdateDrink(string drinkName, [FromBody]DrinkOrder drinkOrder)
+        public void UpdateDrink(string drinkName, [FromBody]DrinkOrderBase drinkOrder)
         {
-            var successful  = this.drinksCountTrackingService.TryUpdate(drinkOrder.Name, drinkOrder.Quantity.Value);
+            var successful  = this.drinksCountTrackingService.TryUpdate(drinkName, drinkOrder.Quantity.Value);
             if (!successful)
             {
                 throw new ResourceNotFoundException("couldn't find drink " + drinkName);

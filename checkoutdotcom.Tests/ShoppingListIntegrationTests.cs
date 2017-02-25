@@ -225,7 +225,7 @@ namespace checkoutdotcom.Tests
             var unknownDrink = Guid.NewGuid().ToString("N");
 
             var request = new RestRequest($"/drinks/{unknownDrink}");
-            string payloadUpdate = $"{{\"name\":\"{unknownDrink}\",\"quantity\":1337}}";
+            string payloadUpdate = $"{{\"quantity\":1337}}";
             request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
             var response = this.client.Put(request);
 
@@ -237,7 +237,7 @@ namespace checkoutdotcom.Tests
         {
             string drinkName = Guid.NewGuid().ToString("N");
             var request = new RestRequest($"/drinks/{drinkName}");
-            string payloadUpdate = $"{{\"quantity\":1337}}";
+            string payloadUpdate = $"{{\"count\":1337}}";
             request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
             var response = this.client.Put(request);
 

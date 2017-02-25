@@ -33,8 +33,8 @@ namespace checkoutdotcom
                 options =>
                     {
                         // register our filters globally.
-                        options.Filters.Add(new ModelStateValidationActionFilter());
-                        options.Filters.Add(new ResourceNotFoundExceptionToHttpStatusCodeConverterActionFilter());
+                        options.Filters.Add(typeof(ModelStateValidationActionFilter));
+                        options.Filters.Add(typeof(ResourceNotFoundExceptionToHttpStatusCodeConverterActionFilter));
                     });
 
             RegisterServices(services);

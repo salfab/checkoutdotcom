@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace checkoutdotcom.Controllers
 {
@@ -21,6 +22,11 @@ namespace checkoutdotcom.Controllers
 
         public void AddDrink(string name, int quantity)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             if (this.drinks.ContainsKey(name))
             {
                 this.drinks[name] += quantity;
@@ -33,16 +39,31 @@ namespace checkoutdotcom.Controllers
 
         public int Get(string name)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             return this.drinks.ContainsKey(name) ? this.drinks[name] : 0;
         }
 
         public bool TryDelete(string name)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             return this.drinks.Remove(name);
         }
 
         public bool TryUpdate(string name, int quantity)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             if (this.drinks.ContainsKey(name))
             {
                 this.drinks[name] = quantity;

@@ -28,6 +28,11 @@ namespace checkoutdotcom.Controllers
         [Route("{drinkName}")]
         public DrinkOrder Get(string drinkName)
         {
+            if (drinkName == null)
+            {
+                throw new ArgumentNullException(nameof(drinkName));
+            }
+
             var count = this.drinksCountTrackingService.Get(drinkName);
 
             if (count == 0)
@@ -45,6 +50,11 @@ namespace checkoutdotcom.Controllers
         [Route("{drinkName}")]
         public void Delete(string drinkName)
         {
+            if (drinkName == null)
+            {
+                throw new ArgumentNullException(nameof(drinkName));
+            }
+
             var success = this.drinksCountTrackingService.TryDelete(drinkName);
             if (!success)
             {

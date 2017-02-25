@@ -7,5 +7,6 @@
         Dictionary<string, int> Get();
 
         void AddDrink(string name, int quantity);
+        int Get(string name);
     }
 }

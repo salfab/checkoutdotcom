@@ -76,7 +76,6 @@ namespace checkoutdotcom.Tests
             newDrinkToken["quantity"].Value<int>().Should().Be(2);
         }
 
-
         [TestMethod]
         public void two_Post_requests_on_ShoppingList_resource_for_2_new_drinks_each_followed_by_Get_ShoppingList()
         {
@@ -98,6 +97,42 @@ namespace checkoutdotcom.Tests
             var jsonResponse = JArray.Parse(response.Content);
             var newDrinkToken = jsonResponse.Single(token => token["name"].Value<string>().Equals(newDrink, StringComparison.OrdinalIgnoreCase));
             newDrinkToken["quantity"].Value<int>().Should().Be(4);
+        }
+
+        [TestMethod]
+        public void Get_request_on_ShoppingList_for_unknown_drink()
+        {
+            var unknownDrink = Guid.NewGuid().ToString("N");
+            var restRequest = new RestRequest($"/drinks/{unknownDrink}");
+           
+            var response = this.client.Get(restRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [TestMethod]
+        public void Get_request_on_ShoppingList_for_known_drink()
+        {
+
+            var restRequest = new RestRequest("/add-drink");
+
+            var newDrink = Guid.NewGuid().ToString("N");
+            string payload = $"{{\"name\":\"{newDrink}\",\"quantity\":2}}";
+
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+
+            this.client.Post(restRequest);
+
+            var getRequest = new RestRequest($"/drinks/{newDrink}")
+            {
+                Method = Method.GET
+            };
+
+            //getRequest.AddUrlSegment("drinkName", newDrink);
+
+            var response = this.client.Execute(getRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            JObject.Parse(response.Content)["quantity"].Value<int>().Should().Be(2);
         }
     }
 }

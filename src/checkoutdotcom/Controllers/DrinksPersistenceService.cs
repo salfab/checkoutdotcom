@@ -30,5 +30,10 @@ namespace checkoutdotcom.Controllers
                this.drinks.Add(name, quantity);
             }
         }
+
+        public int Get(string name)
+        {
+            return this.drinks.ContainsKey(name) ? this.drinks[name] : 0;
+        }
     }
 }

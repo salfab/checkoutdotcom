@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace checkoutdotcom.Controllers
 {
-    using System.Collections.Generic;
 
+    /// <summary>
+    /// This is the service responsible for keeping track of the count of drinks ordered.
+    /// </summary>
+    /// <remarks>
+    /// According to the specs, the only thing we will have to keep track of is the number of bottles ordered for a given drink.
+    /// It may seem odd that we have signatures with just drink names and quantities at first glance.
+    /// We could have used a repository pattern, and expose signatures that would accept <see cref="DrinkOrder"/> objects, 
+    /// but at the moment, we don't need it so we can stick to the KISS principle, because YAGNI.
+    /// Anyways, a refactor will be very quick to perform, shold we change our mind.
+    /// </remarks>
     public class DrinksCountTrackingService : IDrinksCountTrackingService
     {
         private readonly Dictionary<string, int> drinks;
-
 
         public DrinksCountTrackingService()
         {

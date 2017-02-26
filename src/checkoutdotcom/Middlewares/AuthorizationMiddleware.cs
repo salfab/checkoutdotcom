@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace checkoutdotcom.Middlewares
 {
+    /// <summary>
+    /// Using ASP.net core's middleware architecture, we build an identity based on the headers, to find an API key and set its claims accordingly.
+    /// These claims will then be used to decorate any endpoint we need to protect against invalid API Keys.
+    /// </summary>
     public class AuthorizationMiddleware
     {
         private readonly RequestDelegate nextComponentDelegate;

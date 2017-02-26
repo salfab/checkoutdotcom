@@ -65,7 +65,7 @@ namespace checkoutdotcom.Controllers
 
         [HttpPut]
         [Route("{drinkName}")]
-        public void UpdateDrink(string drinkName, [FromBody]DrinkOrderBase drinkOrder)
+        public DrinkOrder UpdateDrink(string drinkName, [FromBody]DrinkOrderBase drinkOrder)
         {
             if (drinkName == null)
             {
@@ -80,7 +80,13 @@ namespace checkoutdotcom.Controllers
             if (!successful)
             {
                 throw new ResourceNotFoundException("couldn't find drink " + drinkName);
-            }            
+            }
+
+            return new DrinkOrder
+                       {
+                            Name = drinkName,
+                            Quantity = this.drinksCountTrackingService.Get(drinkName)
+                       };
         }
     }
 }

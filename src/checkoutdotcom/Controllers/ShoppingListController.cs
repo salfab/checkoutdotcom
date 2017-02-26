@@ -20,7 +20,10 @@ namespace checkoutdotcom.Controllers
         /// <summary>
         /// Adds a number of drinks to the shopping-list.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        ///     The endpoint will return an empty payload. This is not a REST call, and it is not a create operation. Therefore, the updated/created drinks entry will not be returned.
+        ///     This is particularly important if we have concurrent calls or if we use event-sourcing for our data storage.
+        /// </returns>
         /// <remarks>
         ///   The specs ask us to add drinks. Drinks of this type may already exist in the shopping list.
         ///   In that case, its quantity will be incremented according, therefore, the endpoint can't follow the RESTful pattern, since it doesn't always lead to the creation of a new resource. 

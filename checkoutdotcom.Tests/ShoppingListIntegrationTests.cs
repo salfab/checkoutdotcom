@@ -205,7 +205,7 @@ namespace checkoutdotcom.Tests
         }
 
         [TestMethod]
-        public void Put_on_known_drink_updates_quantity_accordingly()
+        public void Put_on_known_drink_updates_quantity_accordingly_and_returns_modified_drink_in_body()
         {
             var restRequest = new RestRequest("/add-drink");
 
@@ -214,13 +214,14 @@ namespace checkoutdotcom.Tests
             restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
             this.client.Post(restRequest);
 
-
             var request = new RestRequest($"/drinks/{newDrink}");
             string payloadUpdate = $"{{\"name\":\"{newDrink}\",\"quantity\":1337}}";
             request.AddParameter("application/json", payloadUpdate, ParameterType.RequestBody);
             var response = this.client.Put(request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Content.Should().NotBeNullOrWhiteSpace();
+            JObject.Parse(response.Content)["quantity"].Value<int>().Should().Be(1337);
 
             var getRequest = new RestRequest($"/drinks/{newDrink}");
 
@@ -228,7 +229,6 @@ namespace checkoutdotcom.Tests
             getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             JObject.Parse(getResponse.Content)["quantity"].Value<int>().Should().Be(1337);
-
         }
 
         [TestMethod]

@@ -4,6 +4,7 @@ using System.Linq;
 
 using checkoutdotcom.Exceptions;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace checkoutdotcom.Controllers
@@ -18,7 +19,8 @@ namespace checkoutdotcom.Controllers
             this.drinksCountTrackingService = drinksCountTrackingService;
         }
 
-        [HttpGet]        
+        [HttpGet]      
+        [Authorize(Policy = "ValidApiKey")]  
         public IEnumerable<DrinkOrder> Get()
         {
             return this.drinksCountTrackingService.Get().Select(pair => new DrinkOrder { Name = pair.Key, Quantity = pair.Value });
@@ -26,6 +28,7 @@ namespace checkoutdotcom.Controllers
 
         [HttpGet]
         [Route("{drinkName}")]
+        [Authorize(Policy = "ValidApiKey")]  
         public DrinkOrder Get(string drinkName)
         {
             if (drinkName == null)
@@ -48,6 +51,7 @@ namespace checkoutdotcom.Controllers
 
         [HttpDelete]
         [Route("{drinkName}")]
+        [Authorize(Policy = "ValidApiKey")]  
         public void Delete(string drinkName)
         {
             if (drinkName == null)
@@ -65,6 +69,7 @@ namespace checkoutdotcom.Controllers
 
         [HttpPut]
         [Route("{drinkName}")]
+        [Authorize(Policy = "ValidApiKey")]  
         public DrinkOrder UpdateDrink(string drinkName, [FromBody]DrinkOrderBase drinkOrder)
         {
             if (drinkName == null)

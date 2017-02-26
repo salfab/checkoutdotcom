@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace checkoutdotcom.Controllers
 {
     using System.Collections.Generic;
@@ -33,6 +35,7 @@ namespace checkoutdotcom.Controllers
         /// </remarks>
         [Route("add-drink")]
         [HttpPost]
+        [Authorize(Policy = "ValidApiKey")]  
         public void AddDrink([FromBody]DrinkOrder drinkOrder)
         {
             if (drinkOrder == null)

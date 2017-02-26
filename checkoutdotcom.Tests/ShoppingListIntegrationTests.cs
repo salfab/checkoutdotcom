@@ -24,7 +24,9 @@ namespace checkoutdotcom.Tests
         public void InitRestClient()
         {
             this.serviceUrl = "http://localhost:52157/api/shopping-list";
-            this.client = new RestClient(this.serviceUrl);                        
+            this.client = new RestClient(this.serviceUrl);          
+            this.client.AddDefaultHeader("Authorization", Guid.NewGuid().ToString("N"));
+
             this.client.Get(new RestRequest("/")).ResponseStatus.Should().NotBe(ResponseStatus.Error, $"The service should be running on url {this.serviceUrl}. Please run the web application before executing the integration tests.");
 
             // TODO: Use kestrel here to start an instance instead of asking the app to be run manually.
@@ -49,6 +51,25 @@ namespace checkoutdotcom.Tests
 
             var response = this.client.Get(restRequest);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [TestMethod]
+        public void AccessApiWithUnauthorizedApiKey()
+        {
+            var restRequest = new RestRequest("/drinks");
+            restRequest.AddHeader("Authorization", "Bearer JustARegularTokenThatDoesntLookLikeAnApiKey");
+
+            var response = this.client.Get(restRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [TestMethod]
+        public void AccessApiWithoutApiKey()
+        {
+            var restRequest = new RestRequest("/drinks");
+            var client = new RestClient(this.serviceUrl);
+            var response = client.Get(restRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [TestMethod]

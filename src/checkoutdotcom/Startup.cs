@@ -34,9 +34,7 @@ namespace checkoutdotcom
             services.AddAuthorization(
                 options =>
                     {
-                        options.AddPolicy(
-                            "ValidApiKey",
-                            policy => policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "ApiKeyIdentity")));
+                        options.AddPolicy("ValidApiKey",policy => policy.RequireClaim("ApiKeyIdentity"));
                     });
 
             services.AddMvc(

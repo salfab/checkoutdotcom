@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using checkoutdotcom.Exceptions;
 
 using Microsoft.AspNetCore.Mvc;

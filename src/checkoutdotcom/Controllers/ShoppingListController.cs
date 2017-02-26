@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 
 using Microsoft.AspNetCore.Authorization;
 
 namespace checkoutdotcom.Controllers
 {
-    using System.Collections.Generic;
-
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/shopping-list")]

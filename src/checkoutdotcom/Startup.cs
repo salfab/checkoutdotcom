@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +6,6 @@ using Microsoft.Extensions.Logging;
 using checkoutdotcom.Controllers;
 using checkoutdotcom.Filters;
 using checkoutdotcom.Middlewares;
-
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace checkoutdotcom
 {
@@ -24,7 +18,7 @@ namespace checkoutdotcom
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            this.Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -60,7 +54,7 @@ namespace checkoutdotcom
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             // Register the middleware that is going to build the identity containing the API Key claim.

@@ -31,16 +31,19 @@ namespace checkoutdotcom
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Build the policies that will be used to grand access, or returned an Unauthorized Http status code
             services.AddAuthorization(
                 options =>
                     {
+                        // Policies can be extended with authorization handlers and Authorization Requirements if the logic needs to be more complex.
+                        // At the moment, it just verifies the presence of an API key (as a required claim).
                         options.AddPolicy("ValidApiKey",policy => policy.RequireClaim("ApiKeyIdentity"));
                     });
 
             services.AddMvc(
                 options =>
                     {
-                        // register our filters globally.
+                        // register our filters, globally.
                         options.Filters.Add(typeof(ModelStateValidationActionFilter));
                         options.Filters.Add(typeof(ResourceNotFoundExceptionToHttpStatusCodeConverterActionFilter));
                         options.Filters.Add(typeof(ArgumentExceptionToBadRequestActionFilter));
@@ -60,6 +63,7 @@ namespace checkoutdotcom
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            // Register the middleware that is going to build the identity containing the API Key claim.
             app.UseMiddleware<AuthorizationMiddleware>();
             app.UseMvc();
         }
